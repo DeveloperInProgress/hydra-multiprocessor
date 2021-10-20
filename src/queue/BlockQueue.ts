@@ -49,7 +49,7 @@ export class BlockQueue implements IBlockQueue {
   indexerStatus!: IndexerStatus
   eventQueue: EventData[] = []
   stateKeeper!: IStateKeeper
-  dataSource!: IProcessorSource
+  dataSource!: IProcessorSource //change to multiple IProcesssorSource
   mappingFilter!: MappingFilter
   rangeFilter!: RangeFilter
   indexerQueries!: { [key in Kind]?: Partial<IndexerQuery> }

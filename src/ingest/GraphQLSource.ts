@@ -45,8 +45,8 @@ export class GraphQLSource implements IProcessorSource {
   private graphClient: GraphQLClient
   private blockCache: FIFOCache<number, SubstrateBlock>
 
-  constructor() {
-    const _endpoint = conf().INDEXER_ENDPOINT_URL
+  constructor(indexerEndpoint: string) {
+    const _endpoint = indexerEndpoint;
     debug(`Using Indexer API endpoint ${_endpoint}`)
     this.graphClient = new GraphQLClient(_endpoint)
     this.blockCache = new FIFOCache<number, SubstrateBlock>(

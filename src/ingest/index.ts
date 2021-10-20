@@ -1,16 +1,25 @@
 import { GraphQLSource } from './GraphQLSource'
 import { IProcessorSource } from './IProcessorSource'
+import { getConfig as conf } from '../start/config'
 import pImmediate from 'p-immediate'
 
-let eventSource: GraphQLSource
+let eventSources: GraphQLSource[]
 
 export * from './IProcessorSource'
 
-export async function getProcessorSource(): Promise<IProcessorSource> {
-  if (!eventSource) {
-    // just to make it async, do some async init here if needed
+//to-do :
+//one of the two:
+//1.) return multiple event sources here
+//2.) mutiple graphQL clients inside GraphQLSource
+//It is best to have a seperate abstraction for each indexer
+//Go with option 1.
+
+export async function getProcessorSource(): Promise<IProcessorSource[]> {
+
+  Object.keys(conf().INDEXER_ENDPOINT_URLS).forEach(async (indexer: string)=>{
     await pImmediate()
-    eventSource = new GraphQLSource()
-  }
-  return eventSource
+    eventSources.push(new GraphQLSource(conf().INDEXER_ENDPOINT_URLS[indexer as keyof JSON]))
+  })
+
+  return eventSources
 }
